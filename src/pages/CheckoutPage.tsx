@@ -9,16 +9,18 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
+import { useOrder } from '@/context/OrderContext';
 import { toast } from 'sonner';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { state, dispatch } = useCart();
   const { state: authState } = useAuth();
+  const { addOrder } = useOrder();
   
   const [formData, setFormData] = useState({
-    fullName: '',
-    mobile: '',
+    fullName: authState.user?.name || '',
+    mobile: authState.user?.phone || '',
     address: '',
     paymentMethod: 'cash'
   });
@@ -48,8 +50,18 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Generate order ID and navigate to confirmation
-    const orderId = 'BN' + Date.now().toString().slice(-6);
+    // Create order
+    const orderId = addOrder({
+      items: state.items,
+      total: state.total,
+      customerInfo: {
+        fullName: formData.fullName,
+        mobile: formData.mobile,
+        address: formData.address,
+        email: authState.user?.email
+      },
+      paymentMethod: formData.paymentMethod
+    });
     
     // Clear cart and navigate to confirmation
     dispatch({ type: 'CLEAR_CART' });
@@ -59,6 +71,8 @@ export default function CheckoutPage() {
         orderData: { ...formData, items: state.items, total: state.total }
       }
     });
+
+    toast.success('Order placed successfully! Restaurant has been notified.');
   };
 
   if (!authState.isAuthenticated) {
