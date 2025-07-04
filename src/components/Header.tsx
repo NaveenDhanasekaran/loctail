@@ -14,6 +14,7 @@ import SearchBar from '@/components/SearchBar';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useLocation } from '@/context/LocationContext';
+import { toast } from 'sonner';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -27,6 +28,15 @@ export default function Header() {
     } else {
       navigate('/auth');
     }
+  };
+
+  const handleCartClick = () => {
+    if (!authState.isAuthenticated) {
+      toast.error('Please sign in to view your cart');
+      navigate('/auth');
+      return;
+    }
+    navigate('/cart');
   };
 
   const handleLogout = () => {
@@ -103,7 +113,7 @@ export default function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center space-x-2 text-white hover:text-white hover:bg-gray-800">
                     <User className="w-4 h-4" />
-                    <span className="text-white">Login</span>
+                    <span className="text-white">{authState.user?.name}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56 bg-gray-800 border-gray-700" align="end">
@@ -151,7 +161,7 @@ export default function Header() {
             
             <Button 
               variant="ghost" 
-              onClick={() => navigate('/cart')}
+              onClick={handleCartClick}
               className="relative flex items-center space-x-2 text-white hover:text-white hover:bg-gray-800"
             >
               <ShoppingBag className="w-4 h-4" />

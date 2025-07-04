@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Product, useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -14,6 +15,7 @@ interface ProductGridProps {
 
 export default function ProductGrid({ products, category }: ProductGridProps) {
   const { dispatch } = useCart();
+  const { state: authState } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -23,6 +25,13 @@ export default function ProductGrid({ products, category }: ProductGridProps) {
 
   const handleAddToCart = (product: Product, e: React.MouseEvent) => {
     e.stopPropagation();
+    
+    if (!authState.isAuthenticated) {
+      toast.error('Please sign in to add items to cart');
+      navigate('/auth');
+      return;
+    }
+    
     dispatch({ type: 'ADD_TO_CART', product });
     toast.success(`${product.name} added to cart!`);
   };

@@ -1,13 +1,25 @@
+import { useEffect } from 'react';
 import { ArrowLeft, Minus, Plus, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 export default function CartPage() {
   const navigate = useNavigate();
   const { state, dispatch } = useCart();
+  const { state: authState } = useAuth();
+
+  // Check authentication on component mount
+  useEffect(() => {
+    if (!authState.isAuthenticated) {
+      toast.error('Please sign in to view your cart');
+      navigate('/auth');
+      return;
+    }
+  }, [authState.isAuthenticated, navigate]);
 
   const updateQuantity = (productId: string, newQuantity: number) => {
     dispatch({ type: 'UPDATE_QUANTITY', productId, quantity: newQuantity });
@@ -25,6 +37,10 @@ export default function CartPage() {
     }
     navigate('/checkout');
   };
+
+  if (!authState.isAuthenticated) {
+    return null; // Will redirect in useEffect
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

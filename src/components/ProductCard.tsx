@@ -2,6 +2,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus, Package } from 'lucide-react';
 import { Product, useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 interface ProductCardProps {
@@ -10,8 +12,16 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { dispatch } = useCart();
+  const { state: authState } = useAuth();
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
+    if (!authState.isAuthenticated) {
+      toast.error('Please sign in to add items to cart');
+      navigate('/auth');
+      return;
+    }
+    
     dispatch({ type: 'ADD_TO_CART', product });
     toast.success(`${product.name} added to cart!`);
   };

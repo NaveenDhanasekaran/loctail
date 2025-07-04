@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, CreditCard, Banknote } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,11 +8,13 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { state, dispatch } = useCart();
+  const { state: authState } = useAuth();
   
   const [formData, setFormData] = useState({
     fullName: '',
@@ -20,6 +22,15 @@ export default function CheckoutPage() {
     address: '',
     paymentMethod: 'cash'
   });
+
+  // Check authentication on component mount
+  useEffect(() => {
+    if (!authState.isAuthenticated) {
+      toast.error('Please sign in to proceed with checkout');
+      navigate('/auth');
+      return;
+    }
+  }, [authState.isAuthenticated, navigate]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -49,6 +60,10 @@ export default function CheckoutPage() {
       }
     });
   };
+
+  if (!authState.isAuthenticated) {
+    return null; // Will redirect in useEffect
+  }
 
   if (state.items.length === 0) {
     return (
