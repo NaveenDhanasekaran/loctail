@@ -132,7 +132,7 @@ export default function ProductDetailPage() {
           <div className="space-y-6">
             {/* Breadcrumb */}
             <div className="text-sm text-gray-600">
-              <span className="text-purple-600 cursor-pointer">Loctail Store</span> >
+              <span className="text-purple-600 cursor-pointer">Loctail Store</span> {'>'}
             </div>
 
             {/* Product Title */}
@@ -180,7 +180,7 @@ export default function ProductDetailPage() {
                         <span className="text-xs font-bold text-gray-600">{offer.brand}</span>
                       </div>
                       <span className="text-sm text-gray-700 flex-1">{offer.text}</span>
-                      <span className="text-gray-400">></span>
+                      <span className="text-gray-400">{'>'}</span>
                     </div>
                   ))}
                 </div>
