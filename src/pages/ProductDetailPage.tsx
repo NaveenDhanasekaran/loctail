@@ -40,22 +40,22 @@ export default function ProductDetailPage() {
 
   const offers = [
     {
-      brand: 'soomin',
+      brand: 'loctail',
       text: 'Set of 2 Fridge Magnets worth ₹349 for FREE!',
       color: 'text-orange-500'
     },
     {
-      brand: 'bigbasket',
+      brand: 'loctail',
       text: 'Enjoy 50% Off on Your 1st Month Subscription!',
       color: 'text-pink-500'
     },
     {
-      brand: 'nykaa',
+      brand: 'loctail',
       text: 'Buy any 2 skincare products @ ₹699 + Extra 5% Off',
       color: 'text-blue-500'
     },
     {
-      brand: 'soomin',
+      brand: 'loctail',
       text: 'Free Colored Frame with Photo worth ₹409 for FREE!',
       color: 'text-orange-500'
     },
@@ -81,7 +81,7 @@ export default function ProductDetailPage() {
               >
                 <ArrowLeft className="w-5 h-5" />
               </Button>
-              <div className="text-2xl font-bold text-purple-600">zepto</div>
+              <div className="text-2xl font-bold text-purple-600">loctail</div>
             </div>
             
             <div className="flex items-center space-x-4">
@@ -132,7 +132,7 @@ export default function ProductDetailPage() {
           <div className="space-y-6">
             {/* Breadcrumb */}
             <div className="text-sm text-gray-600">
-              <span className="text-purple-600 cursor-pointer">Gourmet Garden</span> &gt;
+              <span className="text-purple-600 cursor-pointer">Loctail Store</span> >
             </div>
 
             {/* Product Title */}
@@ -180,7 +180,7 @@ export default function ProductDetailPage() {
                         <span className="text-xs font-bold text-gray-600">{offer.brand}</span>
                       </div>
                       <span className="text-sm text-gray-700 flex-1">{offer.text}</span>
-                      <span className="text-gray-400">&gt;</span>
+                      <span className="text-gray-400">></span>
                     </div>
                   ))}
                 </div>

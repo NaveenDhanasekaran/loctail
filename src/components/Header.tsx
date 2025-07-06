@@ -45,13 +45,13 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-gray-900 border-b border-gray-700 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="header-fixed sticky top-0 z-50 bg-gray-900 border-b border-gray-700 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex items-center justify-between h-full">
           {/* Logo & Location */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-6 min-w-0">
             <div 
-              className="flex items-center cursor-pointer"
+              className="flex items-center cursor-pointer flex-shrink-0"
               onClick={() => navigate('/')}
             >
               <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -59,7 +59,7 @@ export default function Header() {
               </div>
             </div>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 flex-shrink-0">
               <div className="px-2 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full">
                 <span className="text-xs font-bold text-gray-900">SUPER SAVER</span>
               </div>
@@ -68,17 +68,17 @@ export default function Header() {
             {/* Location Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2 text-left text-white hover:text-white hover:bg-gray-800">
-                  <MapPin className="w-4 h-4 text-purple-400" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-white">
+                <Button variant="ghost" className="flex items-center space-x-2 text-left text-white hover:text-white hover:bg-gray-800 min-w-0">
+                  <MapPin className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-sm font-medium text-white truncate">
                       {locationState.currentLocation?.name || 'Select Location'}
                     </span>
                     <span className="text-xs text-gray-300 truncate max-w-32">
                       {locationState.currentLocation?.address || 'Choose delivery location'}
                     </span>
                   </div>
-                  <ChevronDown className="w-4 h-4 text-gray-300" />
+                  <ChevronDown className="w-4 h-4 text-gray-300 flex-shrink-0" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-80 bg-gray-800 border-gray-700" align="start">
@@ -86,9 +86,9 @@ export default function Header() {
                 <DropdownMenuSeparator className="bg-gray-700" />
                 {locationState.savedLocations.map((location) => (
                   <DropdownMenuItem key={location.id} className="p-3 text-white hover:bg-gray-700">
-                    <div>
-                      <p className="font-medium text-white">{location.name}</p>
-                      <p className="text-sm text-gray-300">{location.address}</p>
+                    <div className="min-w-0">
+                      <p className="font-medium text-white truncate">{location.name}</p>
+                      <p className="text-sm text-gray-300 truncate">{location.address}</p>
                     </div>
                   </DropdownMenuItem>
                 ))}
@@ -104,16 +104,16 @@ export default function Header() {
           </div>
 
           {/* Search Bar */}
-          <SearchBar className="flex-1 max-w-lg mx-8" />
+          <SearchBar className="flex-1 max-w-lg mx-8 min-w-0" />
 
           {/* Cart & Profile */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 flex-shrink-0">
             {authState.isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center space-x-2 text-white hover:text-white hover:bg-gray-800">
                     <User className="w-4 h-4" />
-                    <span className="text-white">{authState.user?.name}</span>
+                    <span className="text-white hidden sm:inline">{authState.user?.name}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56 bg-gray-800 border-gray-700" align="end">
@@ -155,7 +155,7 @@ export default function Header() {
                 className="flex items-center space-x-2 text-white hover:text-white hover:bg-gray-800"
               >
                 <User className="w-4 h-4" />
-                <span className="text-white">Login</span>
+                <span className="text-white hidden sm:inline">Login</span>
               </Button>
             )}
             
@@ -165,7 +165,7 @@ export default function Header() {
               className="relative flex items-center space-x-2 text-white hover:text-white hover:bg-gray-800"
             >
               <ShoppingBag className="w-4 h-4" />
-              <span className="text-white">Cart</span>
+              <span className="text-white hidden sm:inline">Cart</span>
               {cartState.items.length > 0 && (
                 <Badge className="absolute -top-2 -right-2 bg-purple-500 text-white text-xs px-1.5 py-0.5 rounded-full min-w-[20px] h-5">
                   {cartState.items.reduce((sum, item) => sum + item.quantity, 0)}

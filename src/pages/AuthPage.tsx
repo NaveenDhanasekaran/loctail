@@ -92,11 +92,11 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 fixed-layout">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-16">
+      <header className="header-fixed bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex items-center h-full">
             <Button 
               variant="ghost" 
               size="sm" 
@@ -105,7 +105,7 @@ export default function AuthPage() {
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="ml-4 text-xl font-bold text-gray-900">Welcome to BazaarNow</h1>
+            <h1 className="ml-4 text-xl font-bold text-gray-900">Welcome to Loctail</h1>
           </div>
         </div>
       </header>
@@ -114,10 +114,10 @@ export default function AuthPage() {
       <main className="max-w-md mx-auto px-4 py-12">
         <Card>
           <CardHeader className="text-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
-              <span className="text-2xl text-white font-bold">B</span>
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+              <span className="text-2xl text-white font-bold">L</span>
             </div>
-            <CardTitle className="text-2xl">Join BazaarNow</CardTitle>
+            <CardTitle className="text-2xl">Join Loctail</CardTitle>
             <p className="text-gray-600">Your neighborhood super app</p>
           </CardHeader>
           
@@ -168,7 +168,7 @@ export default function AuthPage() {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    className="w-full bg-purple-600 hover:bg-purple-700"
                     disabled={isLoading}
                   >
                     {isLoading ? 'Signing In...' : 'Sign In'}

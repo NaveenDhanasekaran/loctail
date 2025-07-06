@@ -53,7 +53,7 @@ export default function ProductGrid({ products, category }: ProductGridProps) {
   }
 
   return (
-    <div className="bg-gray-900">
+    <div className="bg-gray-900 fixed-layout">
       {searchQuery && (
         <div className="p-4 bg-gray-800 border-b border-gray-700">
           <h2 className="text-lg font-semibold text-white">
@@ -65,21 +65,21 @@ export default function ProductGrid({ products, category }: ProductGridProps) {
         </div>
       )}
       
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
+      <div className="product-grid p-4">
         {filteredProducts.map((product) => (
           <Card 
             key={product.id} 
-            className="cursor-pointer hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-gray-800 hover:bg-gray-700 group card-dark"
+            className="product-card cursor-pointer hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-gray-800 hover:bg-gray-700 group card-dark"
             onClick={() => handleProductClick(product)}
           >
-            <CardContent className="p-0">
+            <CardContent className="p-0 h-full flex flex-col">
               {/* Product Image */}
-              <div className="relative w-full h-40 bg-gray-700 rounded-t-lg overflow-hidden">
+              <div className="image-container rounded-t-lg">
                 {product.image ? (
                   <img 
                     src={product.image} 
                     alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.style.display = 'none';
@@ -101,7 +101,7 @@ export default function ProductGrid({ products, category }: ProductGridProps) {
               </div>
               
               {/* Product Info */}
-              <div className="p-3 space-y-2">
+              <div className="p-3 space-y-2 flex-1 flex flex-col">
                 {/* Price */}
                 <div className="flex items-center space-x-2">
                   <span className="text-lg font-bold text-white">₹{product.price}</span>
@@ -111,7 +111,7 @@ export default function ProductGrid({ products, category }: ProductGridProps) {
                 </div>
                 
                 {/* Product Name */}
-                <h3 className="text-sm font-medium text-white line-clamp-2 min-h-[2.5rem]">
+                <h3 className="text-sm font-medium text-white line-clamp-2 min-h-[2.5rem] flex-1">
                   {product.name}
                 </h3>
                 
@@ -127,7 +127,7 @@ export default function ProductGrid({ products, category }: ProductGridProps) {
                 </div>
                 
                 {/* Quantity and Add Button */}
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center justify-between pt-2 mt-auto">
                   <span className="text-xs text-gray-400">
                     {Math.floor(Math.random() * 500) + 100}g
                   </span>
