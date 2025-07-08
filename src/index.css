@@ -34,7 +34,15 @@ body {
   min-height: 100vh;
   background-color: #0a0a0a;
   color: #ffffff;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-x: hidden;
+  width: 100vw;
+}
+
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -76,7 +84,7 @@ button:focus-visible {
 /* Fixed container widths to prevent shifting */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 100vw;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -97,7 +105,45 @@ img {
 /* Prevent content jumping */
 .min-h-screen {
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
+}
+
+/* Fixed layout wrapper */
+.layout-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Fixed header */
+.header-container {
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* Fixed main content */
+.main-content {
+  width: 100vw;
+  min-height: calc(100vh - 64px);
+  padding-bottom: 80px; /* Space for bottom navigation */
+}
+
+/* Fixed sidebar */
+.sidebar-fixed {
+  width: 256px;
+  min-width: 256px;
+  max-width: 256px;
+  flex-shrink: 0;
+}
+
+/* Fixed content area */
+.content-area {
+  flex: 1;
+  min-width: 0;
+  width: calc(100vw - 256px);
 }
 
 @layer base {
@@ -244,8 +290,8 @@ input:focus, textarea:focus, select:focus {
 /* Fixed layout styles to prevent shifting */
 .fixed-layout {
   position: relative;
-  width: 100%;
-  overflow: hidden;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 /* Consistent grid sizing */
@@ -254,6 +300,7 @@ input:focus, textarea:focus, select:focus {
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
   width: 100%;
+  padding: 1rem;
 }
 
 /* Prevent image loading shifts */
@@ -295,6 +342,7 @@ input:focus, textarea:focus, select:focus {
   height: 64px;
   min-height: 64px;
   max-height: 64px;
+  width: 100vw;
 }
 
 /* Stable navigation */
@@ -302,6 +350,7 @@ input:focus, textarea:focus, select:focus {
   height: 80px;
   min-height: 80px;
   max-height: 80px;
+  width: 100vw;
 }
 
 /* Bottom navigation fixed */
@@ -309,4 +358,33 @@ input:focus, textarea:focus, select:focus {
   height: 64px;
   min-height: 64px;
   max-height: 64px;
+  width: 100vw;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .sidebar-fixed {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+  }
+  
+  .content-area {
+    width: calc(100vw - 200px);
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar-fixed {
+    display: none;
+  }
+  
+  .content-area {
+    width: 100vw;
+  }
+  
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    padding: 0.5rem;
+  }
 }

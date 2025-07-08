@@ -194,17 +194,19 @@ export default function GroceryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="layout-wrapper bg-gray-900">
       <CategoryNavigation />
       
       <div className="flex">
-        <CategorySidebar 
-          categories={sidebarCategories}
-          selectedCategory={sidebarSelected}
-          onCategoryChange={sidebarOnChange}
-        />
+        <div className="sidebar-fixed">
+          <CategorySidebar 
+            categories={sidebarCategories}
+            selectedCategory={sidebarSelected}
+            onCategoryChange={sidebarOnChange}
+          />
+        </div>
         
-        <div className="flex-1">
+        <div className="content-area">
           {selectedCategory === 'all' ? (
             <div>
               {allProductCategories.map(cat => {
@@ -222,7 +224,7 @@ export default function GroceryPage() {
             selectedRestaurant ? (
               <div>
                 <button
-                  className="mb-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                  className="mb-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 ml-4 mt-4"
                   onClick={() => setSelectedRestaurant(null)}
                 >
                   ← Back to Restaurants

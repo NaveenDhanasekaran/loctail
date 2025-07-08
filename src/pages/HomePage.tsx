@@ -92,10 +92,10 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="layout-wrapper bg-gray-900">
       <CategoryNavigation />
       
-      <main className="pb-20">
+      <main className="main-content pb-20">
         {/* Hero Banner */}
         <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 text-white p-8 mx-4 mt-4 rounded-2xl relative overflow-hidden">
           <div className="relative z-10">

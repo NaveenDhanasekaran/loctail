@@ -28,9 +28,9 @@ export default function FoodPage() {
   const menuItems = selectedRestaurant ? restaurantMenus[selectedRestaurant] || [] : [];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="layout-wrapper bg-gray-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <header className="header-container sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
@@ -66,7 +66,7 @@ export default function FoodPage() {
       </header>
 
       {/* Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="main-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!selectedRestaurant ? (
           // Restaurant List View
           <>
@@ -97,13 +97,22 @@ export default function FoodPage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
                 {selectedRestaurantData?.name} Menu
               </h2>
-              <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4">
                 <span>{selectedRestaurantData?.cuisine}</span>
                 <span>•</span>
                 <span>{selectedRestaurantData?.deliveryTime}</span>
                 <span>•</span>
                 <div className="flex items-center space-x-1">
                   <span>⭐ {selectedRestaurantData?.rating}</span>
+                </div>
+              </div>
+              
+              {/* Restaurant Address */}
+              <div className="flex items-start space-x-2 mb-4">
+                <MapPin className="w-4 h-4 text-gray-500 mt-0.5" />
+                <div>
+                  <p className="text-sm text-gray-600">{selectedRestaurantData?.address}</p>
+                  <p className="text-xs text-green-600">{selectedRestaurantData?.distance} away</p>
                 </div>
               </div>
             </div>
