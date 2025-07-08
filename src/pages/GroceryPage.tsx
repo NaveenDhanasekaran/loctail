@@ -194,10 +194,10 @@ export default function GroceryPage() {
   }
 
   return (
-    <div className="layout-wrapper bg-gray-900">
+    <div className="min-h-screen bg-gray-900 overflow-x-hidden">
       <CategoryNavigation />
       
-      <div className="flex">
+      <div className="flex min-h-screen">
         <div className="sidebar-fixed">
           <CategorySidebar 
             categories={sidebarCategories}
@@ -206,7 +206,7 @@ export default function GroceryPage() {
           />
         </div>
         
-        <div className="content-area">
+        <div className="flex-1 min-w-0 overflow-x-hidden">
           {selectedCategory === 'all' ? (
             <div>
               {allProductCategories.map(cat => {

@@ -28,9 +28,9 @@ export default function FoodPage() {
   const menuItems = selectedRestaurant ? restaurantMenus[selectedRestaurant] || [] : [];
 
   return (
-    <div className="layout-wrapper bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Header */}
-      <header className="header-container sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
@@ -66,7 +66,7 @@ export default function FoodPage() {
       </header>
 
       {/* Content */}
-      <main className="main-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 overflow-x-hidden">
         {!selectedRestaurant ? (
           // Restaurant List View
           <>

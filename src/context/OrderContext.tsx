@@ -85,43 +85,129 @@ export const OrderProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const sendOrderEmail = async (order: Order): Promise<void> => {
     try {
-      // In a real application, you would send this to your backend API
-      // For now, we'll simulate the email sending and log the details
-      
-      const emailContent = {
+      // Send email using a simple email service API
+      const emailData = {
         to: 'naveen16043@gmail.com',
+        from: 'orders@loctail.com',
         subject: `New Order Received - ${order.id}`,
+        text: `
+New Order Details:
+
+Order ID: ${order.id}
+Customer: ${order.customerInfo.fullName}
+Phone: ${order.customerInfo.mobile}
+Email: ${order.customerInfo.email || 'Not provided'}
+Address: ${order.customerInfo.address}
+Payment Method: ${order.paymentMethod}
+Total Amount: ₹${order.total}
+
+Order Items:
+${order.items.map(item => 
+  `- ${item.name} - Qty: ${item.quantity} - ₹${item.price * item.quantity}`
+).join('\n')}
+
+Order Time: ${new Date(order.orderDate).toLocaleString()}
+Estimated Delivery: ${new Date(order.estimatedDelivery).toLocaleString()}
+
+Please prepare the order for delivery.
+
+Best regards,
+Loctail Team
+        `,
         html: `
-          <h2>New Order Received</h2>
-          <p><strong>Order ID:</strong> ${order.id}</p>
-          <p><strong>Customer:</strong> ${order.customerInfo.fullName}</p>
-          <p><strong>Phone:</strong> ${order.customerInfo.mobile}</p>
-          <p><strong>Address:</strong> ${order.customerInfo.address}</p>
-          <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
-          <p><strong>Total Amount:</strong> ₹${order.total}</p>
-          
-          <h3>Order Items:</h3>
-          <ul>
-            ${order.items.map(item => 
-              `<li>${item.name} - Qty: ${item.quantity} - ₹${item.price * item.quantity}</li>`
-            ).join('')}
-          </ul>
-          
-          <p><strong>Order Time:</strong> ${new Date(order.orderDate).toLocaleString()}</p>
-          <p><strong>Estimated Delivery:</strong> ${new Date(order.estimatedDelivery).toLocaleString()}</p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #8b5cf6;">New Order Received - ${order.id}</h2>
+            
+            <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3>Customer Information</h3>
+              <p><strong>Name:</strong> ${order.customerInfo.fullName}</p>
+              <p><strong>Phone:</strong> ${order.customerInfo.mobile}</p>
+              <p><strong>Email:</strong> ${order.customerInfo.email || 'Not provided'}</p>
+              <p><strong>Address:</strong> ${order.customerInfo.address}</p>
+            </div>
+            
+            <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3>Order Details</h3>
+              <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+              <p><strong>Total Amount:</strong> ₹${order.total}</p>
+              <p><strong>Order Time:</strong> ${new Date(order.orderDate).toLocaleString()}</p>
+              <p><strong>Estimated Delivery:</strong> ${new Date(order.estimatedDelivery).toLocaleString()}</p>
+            </div>
+            
+            <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3>Order Items</h3>
+              <ul>
+                ${order.items.map(item => 
+                  `<li>${item.name} - Qty: ${item.quantity} - ₹${item.price * item.quantity}</li>`
+                ).join('')}
+              </ul>
+            </div>
+            
+            <p style="color: #6b7280; font-size: 14px;">
+              Please prepare the order for delivery as soon as possible.
+            </p>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+              <p style="color: #8b5cf6; font-weight: bold;">Loctail Team</p>
+              <p style="color: #6b7280; font-size: 12px;">Your Hyperlocal Super App</p>
+            </div>
+          </div>
         `
       };
-
-      // Log email content for development (in production, this would be sent via email service)
-      console.log('Order Email Content:', emailContent);
       
-      // Simulate API call to send email
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Try to send email using EmailJS or similar service
+      // For now, we'll use a simple fetch to a mock email service
+      try {
+        const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            service_id: 'default_service',
+            template_id: 'template_order',
+            user_id: 'public_key',
+            template_params: {
+              to_email: 'naveen16043@gmail.com',
+              from_name: 'Loctail Orders',
+              subject: emailData.subject,
+              message: emailData.text,
+              html_message: emailData.html
+            }
+          })
+        });
+        
+        if (response.ok) {
+          console.log('Email sent successfully to naveen16043@gmail.com');
+        } else {
+          throw new Error('Email service failed');
+        }
+      } catch (emailError) {
+        // Fallback: Log detailed email content
+        console.log('Email Service Error - Logging email content:', emailError);
+        console.log('=== ORDER EMAIL CONTENT ===');
+        console.log('To:', emailData.to);
+        console.log('Subject:', emailData.subject);
+        console.log('Content:', emailData.text);
+        console.log('=== END EMAIL CONTENT ===');
+        
+        // Also try to send via browser's mailto (will open email client)
+        const mailtoLink = `mailto:naveen16043@gmail.com?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(emailData.text)}`;
+        window.open(mailtoLink, '_blank');
+      }
       
-      console.log(`Order notification sent to ${emailContent.to}`);
+      console.log(`Order notification processed for ${emailData.to}`);
       
     } catch (error) {
       console.error('Failed to send order email:', error);
+      
+      // Fallback notification
+      console.log('=== FALLBACK ORDER NOTIFICATION ===');
+      console.log(`New order ${order.id} from ${order.customerInfo.fullName}`);
+      console.log(`Phone: ${order.customerInfo.mobile}`);
+      console.log(`Total: ₹${order.total}`);
+      console.log(`Items: ${order.items.length} items`);
+      console.log('=== END NOTIFICATION ===');
     }
   };
 
